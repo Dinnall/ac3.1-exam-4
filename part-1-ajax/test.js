@@ -1,11 +1,35 @@
-function getCountryName(code) {
+
+
+
+
+
+function getCountryName(data) {
+
     $.ajax({
-      //uses the three letter code to get the country's full name
+      url:'http://restcountries.eu/rest/v1/alpha/' + input,
+      success: function(data){
+      var countryData = data.name
+       console.log(countryData)
+       var htmlLabel = document.getElementsByClassName('name')
+       $('name').append(countryData)
       }
     })
   }
 
   function parseData(country) {
+        
+        $.ajax({
+        url:'http://restcountries.eu/rest/v1/alpha/' + input
+        success: function(data){
+          var borders = data.borders
+          for(var i =0;i<borders.length;i++){
+            parseData(borders[i])
+          }
+        }
+
+
+
+
     //takes the country data
     //extracts the name, capital, population, and neighboring countries
     //iterates through the neighbors array to send off second AJAX request
@@ -15,7 +39,14 @@ function getCountryName(code) {
   button.addEventListener('click', function(){
 
     $.ajax({
+     $('button').submit(function(event){
+  event.preventDefault()
+  var input = $(this).serializeArray()[0].value
+  console.log(input)
+  input = input.split('').join('')
 
+})
+     
     })
   })
 
